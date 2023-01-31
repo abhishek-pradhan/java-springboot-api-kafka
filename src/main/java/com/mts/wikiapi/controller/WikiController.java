@@ -19,9 +19,9 @@ public class WikiController {
 
     @GetMapping("/pub")
     public String publish(@RequestParam("value") String value) {
-        for (int i = 1; i <= 3; i++) {
-            this.wikiKafkaProducer.sendMessage("key" + i, value);
+        for (int i = 1; i <= 1; i++) {
+            this.wikiKafkaProducer.sendMessage("key" + i, value + i);
         }
-        return "Published 3 messages, keys: 1-3, value: " + value;
+        return "Published 1 messages, value: " + value;
     }
 }
