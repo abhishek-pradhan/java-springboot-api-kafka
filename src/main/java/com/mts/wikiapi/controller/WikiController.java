@@ -1,12 +1,6 @@
-package com.mts.wikiapi;
+package com.mts.wikiapi.controller;
 
-import org.apache.kafka.clients.CommonClientConfigs;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.config.SaslConfigs;
-import org.apache.kafka.common.serialization.StringDeserializer;
+import com.mts.wikiapi.service.KafkaProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Properties;
-
 @RestController
 @RequestMapping("/api")
 public class WikiController {
     private static final Logger logger = LoggerFactory.getLogger(WikiController.class);
 
     @Autowired
-    private WikiKafkaProducer wikiKafkaProducer;
+    private KafkaProducer wikiKafkaProducer;
 
     @GetMapping("/pub")
     public String publish(@RequestParam("value") String value) {
-        for (int i = 1; i <= 5000; i++) {
+        for (int i = 1; i <= 3; i++) {
             this.wikiKafkaProducer.sendMessage("key" + i, value);
         }
-        return "Published 5 messages, keys: 1-5, value: " + value;
+        return "Published 3 messages, keys: 1-3, value: " + value;
     }
 }
