@@ -1,5 +1,7 @@
 package com.mts.wikiapi.controller;
 
+import com.mts.wikiapi.events.DomainEvent;
+import com.mts.wikiapi.events.WikiEntity;
 import com.mts.wikiapi.service.KafkaProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +21,18 @@ public class WikiController {
 
     @GetMapping("/pub")
     public String publish(@RequestParam("value") String value) {
-        for (int i = 1; i <= 1; i++) {
-            this.wikiKafkaProducer.sendMessage("key" + i, value + i);
-        }
-        return "Published 1 messages, value: " + value;
+        DomainEvent domainEvent = new DomainEvent();
+
+        WikiEntity wikiEntity = new WikiEntity();
+        wikiEntity.setId(21);
+        wikiEntity.setName("abhishek");
+        wikiEntity.setEmployeeCode("F002184");
+
+        domainEvent.setWikiEntity(wikiEntity);
+        domainEvent.setError(false);
+        domainEvent.setMessage("wiki event occurred");
+
+        this.wikiKafkaProducer.sendMessage("key=" + domainEvent.getWikiEntity().getId(), domainEvent);
+        return "Published 1 message, value=" + domainEvent.toString();
     }
 }

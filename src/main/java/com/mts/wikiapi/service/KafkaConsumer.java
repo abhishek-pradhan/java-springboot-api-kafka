@@ -1,5 +1,6 @@
 package com.mts.wikiapi.service;
 
+import com.mts.wikiapi.events.DomainEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,13 +13,13 @@ import org.springframework.stereotype.Service;
 public class KafkaConsumer {
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
 
-    @KafkaListener(topics = "${kafka.consumer.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "${kafka.consumer.topic}", groupId = "${spring.kafka.consumer.group-id}", properties = {"spring.json.value.default.type=com.mts.wikiapi.events.DomainEvent"})
     public void group1ConsumerA(
             @Header(KafkaHeaders.RECEIVED_KEY) String key,
             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
             @Header(KafkaHeaders.RECEIVED_TIMESTAMP) String timestamp,
             @Header(KafkaHeaders.OFFSET) String offset,
-            String value){
+            DomainEvent value) {
         logger.info(String.format("********** MyConsumer group1ConsumerA consumed message: key %s, topic %s, timestamp %s, offset %s, value %s", key, topic, timestamp, offset, value));
     }
 }

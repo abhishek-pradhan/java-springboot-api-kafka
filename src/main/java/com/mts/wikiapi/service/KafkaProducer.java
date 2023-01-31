@@ -1,5 +1,6 @@
 package com.mts.wikiapi.service;
 
+import com.mts.wikiapi.events.DomainEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,9 @@ public class KafkaProducer {
     }
 
     @Autowired
-    private KafkaTemplate<String,String> kafkaTemplate;
+    private KafkaTemplate<String, DomainEvent> kafkaTemplate;
 
-    public void sendMessage(String key, String value){
+    public void sendMessage(String key, DomainEvent value){
         logger.info(String.format("********** MyPublisher is sending message: %s:%s", key, value));
         this.kafkaTemplate.send(topicName, key, value);
     }
