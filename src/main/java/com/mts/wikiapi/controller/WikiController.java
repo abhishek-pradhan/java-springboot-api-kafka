@@ -19,20 +19,22 @@ public class WikiController {
     @Autowired
     private KafkaProducer wikiKafkaProducer;
 
+    // for simplicity's sake, this method is get, else would be post :)
     @GetMapping("/pub")
     public String publish(@RequestParam("value") String value) {
-        DomainEvent domainEvent = new DomainEvent();
-
+        //todo: populate domain event instead of below hardcoding
         WikiEntity wikiEntity = new WikiEntity();
         wikiEntity.setId(21);
-        wikiEntity.setName("abhishek");
-        wikiEntity.setEmployeeCode("F002184");
+        wikiEntity.setName(value);
+        wikiEntity.setEmployeeCode("F002100");
 
+        DomainEvent domainEvent = new DomainEvent();
         domainEvent.setWikiEntity(wikiEntity);
         domainEvent.setError(false);
-        domainEvent.setMessage("wiki event occurred");
+        domainEvent.setMessage("Wiki Event occurred");
 
-        this.wikiKafkaProducer.sendMessage("key=" + domainEvent.getWikiEntity().getId(), domainEvent);
-        return "Published 1 message, value=" + domainEvent.toString();
+        this.wikiKafkaProducer.sendMessage("key" + domainEvent.getWikiEntity().getId(), domainEvent);
+
+        return "Published 1 message, key" + domainEvent.getWikiEntity().getId() +", value=" + domainEvent.toString();
     }
 }

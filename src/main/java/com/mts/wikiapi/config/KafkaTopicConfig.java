@@ -12,9 +12,8 @@ public class KafkaTopicConfig {
     @Value("${kafka.consumer.topic}")
     private String topic;
 
-    // Kafka Admin creates topic, if it doesn't exist.
-    // A KafkaAdmin bean is responsible for creating new topics in our broker.
-    // With Spring Boot, a KafkaAdmin bean is automatically registered.
+    // Create/configure a NewTopic bean that configures Kafka to:
+    // - Kafka Admin creates new topic, if it doesn't exist.
     @Bean
     public NewTopic newTopic()
     {

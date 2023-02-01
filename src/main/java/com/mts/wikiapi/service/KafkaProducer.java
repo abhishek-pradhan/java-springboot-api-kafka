@@ -22,7 +22,10 @@ public class KafkaProducer {
     private KafkaTemplate<String, DomainEvent> kafkaTemplate;
 
     public void sendMessage(String key, DomainEvent value){
-        logger.info(String.format("********** MyPublisher is sending message: %s:%s", key, value));
         this.kafkaTemplate.send(topicName, key, value);
+
+        logger.info(String.format("***** MyPublisher sent message: key=%s and value=%s *****", key, value));
+
+        // todo: write business logic to act on this event
     }
 }

@@ -20,9 +20,9 @@ public class KafkaProducerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    // Create/configure a ProducerFactory bean that tells Kafka knows how to:
-    // - serialize message keys into Strings
-    // - serialize message values into Strings
+    // Create/configure a ProducerFactory bean that configures Kafka to:
+    // - serialize message key into String
+    // - serialize message value into json
     @Bean
     public ProducerFactory<String, DomainEvent> producerFactory()
     {

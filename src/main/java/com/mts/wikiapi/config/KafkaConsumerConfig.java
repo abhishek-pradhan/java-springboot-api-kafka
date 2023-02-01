@@ -20,20 +20,19 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    // Create/configure a ConsumerFactory bean that tells Kafka knows how to:
-    // - deserialize message keys from Strings
-    // - deserialize message values from Strings
+    // Create/configure a ConsumerFactory bean that configures Kafka to:
+    // - deserialize message key from String
+    // - deserialize message value from json
     @Bean
     public ConsumerFactory<String, DomainEvent> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class); //todo: not sure why this property is not getting applied via code, its working from app.properties file
+        //todo: not sure why below property is not getting applied via code, its working from app.properties file
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         //props.put(ConsumerConfig.GROUP_ID_CONFIG, "group1");
 
-        return new DefaultKafkaConsumerFactory<>(props,
-                new StringDeserializer(),
-                new JsonDeserializer<>(DomainEvent.class));
+        return new DefaultKafkaConsumerFactory<>(props);
     }
 
     // Tell Kafka about our ConsumerFactory, so Kafka can create listeners and deserialize messages.
