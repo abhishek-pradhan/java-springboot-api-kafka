@@ -1,3 +1,6 @@
+// note: commenting entire class, since it is not required. Spring Boot configures local kafka / Confluent cloud kafka
+// / any other Kafka for that matter, as long as right properties are present in app properties file!
+/*
 package com.mts.wikiapi.config;
 
 import com.mts.wikiapi.events.DomainEvent;
@@ -45,3 +48,4 @@ public class KafkaConsumerConfig {
         return factory;
     }
 }
+*/

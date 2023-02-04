@@ -1,3 +1,6 @@
+// note: this class is needed only if you want to dynamically create topic, if it doesn't exist
+// I would rather create Topics from IaC than app code
+/*
 package com.mts.wikiapi.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
@@ -20,3 +23,4 @@ public class KafkaTopicConfig {
         return TopicBuilder.name(topic).build();
     }
 }
+*/
