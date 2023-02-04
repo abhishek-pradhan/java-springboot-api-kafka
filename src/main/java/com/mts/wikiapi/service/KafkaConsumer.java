@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class KafkaConsumer {
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
 
-    @KafkaListener(topics = "${kafka.consumer.topic}", groupId = "${spring.kafka.consumer.group-id}", properties = {"spring.json.value.default.type=com.mts.wikiapi.events.DomainEvent"})
+    @KafkaListener(topics = "${kafka.consumer.topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void receiveMessage(
             @Header(KafkaHeaders.RECEIVED_KEY) String key,
             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
